@@ -1,4 +1,5 @@
-import { Object3D, BoxGeometry, ShaderMaterial, Mesh } from 'three';
+import { Object3D, BoxGeometry, ShaderMaterial, Mesh, Color } from 'three';
+import { canvas, webgl, gui } from 'webgl';
 import helloWorldVertex from 'shaders/helloWorld.vert';
 import helloWorldFragment from 'shaders/helloWorld.frag';
 
@@ -7,7 +8,9 @@ class Box extends Object3D {
     super();
 
     const uniforms = {
-      time: { type: 'f', value: 1.0 }
+      time: { value: 1.0 },
+      colorA: { value: new Color('rgb(213,70,70)') },
+      colorB: { value: new Color('rgb(223,191,86)') }
     };
 
     const geometry = new BoxGeometry(1, 1, 1);
@@ -20,32 +23,35 @@ class Box extends Object3D {
     const mesh = new Mesh(geometry, this.material);
 
     this.add(mesh);
+
+    // attach dat.gui stuff here as usual
+    const folder = gui.addFolder('Box');
+
+    this.settings = {
+      rotationSpeed: 0.5,
+      pulseSpeed: 1.5,
+      colorA: this.material.uniforms.colorA.value.getStyle(),
+      colorB: this.material.uniforms.colorB.value.getStyle()
+    };
+
+    const update = () => {
+      this.material.uniforms.colorA.value.setStyle(this.settings.colorA);
+      this.material.uniforms.colorB.value.setStyle(this.settings.colorB);
+    };
+
+    folder.add(this.settings, 'rotationSpeed', 0, 10.0);
+    folder.add(this.settings, 'pulseSpeed', 0, 6.0);
+    folder.addColor(this.settings, 'colorA').onChange(update);
+    folder.addColor(this.settings, 'colorB').onChange(update);
+    folder.open();
   }
 
   update(dt = 0, time = 0) {
-    // TODO Update value with GUI
-    this.material.uniforms.time.value = time;
+    this.material.uniforms.time.value = time * this.settings.pulseSpeed;
 
-    this.rotation.x += dt * 1.0;
-    this.rotation.y += dt * 1.0;
+    this.rotation.x += dt * this.settings.rotationSpeed;
+    this.rotation.y += dt * this.settings.rotationSpeed;
   }
 }
-
-// this.params = {
-//   cubeSpeed: 0.02,
-//   pulseSpeed: 0.025
-// };
-
-// this.uniforms = {
-//   u_time: { type: 'f', value: 1.0 }
-// };
-
-// const geometry = new THREE.BoxGeometry(1, 1, 1);
-// const material = new THREE.ShaderMaterial({
-//   uniforms: this.uniforms,
-//   vertexShader: helloWorldVertex,
-//   fragmentShader: helloWorldFragment
-// });
-// this.cube = new THREE.Mesh(geometry, material);
 
 export default Box;

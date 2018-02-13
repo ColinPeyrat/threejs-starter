@@ -1,4 +1,3 @@
-import { GUI } from 'dat.gui/build/dat.gui.js';
 import * as THREE from 'three';
 import { WebGLRenderer, PerspectiveCamera, Scene, AxesHelper } from 'three';
 import rightNow from 'right-now';
@@ -128,22 +127,6 @@ class WebGLApp {
     this.update(dt, this.time);
     this.draw();
   };
-
-  // initGui() {
-  //   const gui = new GUI();
-  //   gui.add(this.params, 'cubeSpeed', 0.01, 0.1);
-  //   gui.add(this.params, 'pulseSpeed', 0.01, 0.075);
-  //   return gui;
-  // }
-
-  // render() {
-  //   this.uniforms.u_time.value += this.params.pulseSpeed;
-
-  //   this.cube.rotation.x += this.params.cubeSpeed;
-  //   this.cube.rotation.y += this.params.cubeSpeed;
-
-  //   this.renderer.render(this.scene, this.camera);
-  // }
 }
 
 export default WebGLApp;

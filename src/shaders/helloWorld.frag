@@ -2,14 +2,18 @@
 precision mediump float;
 #endif
 
+uniform vec3 colorA;
+uniform vec3 colorB;
 varying vec2 vUv;
 uniform float time;
 
 void main() {
 	vec2 position = vUv;
 
-	float red = position.x * abs(sin(time));
-  float green = position.y * abs(cos(time));
+	float t = position.x;
+	t *= sin(time) * 0.5 + 0.5;
 
-	gl_FragColor = vec4(red,green,1.0,1.0);
+	vec3 color = mix(colorA, colorB, t);
+
+	gl_FragColor = vec4(color, 1.0);
 }
