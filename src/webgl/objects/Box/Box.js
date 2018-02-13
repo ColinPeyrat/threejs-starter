@@ -1,7 +1,6 @@
 import { Object3D, BoxGeometry, ShaderMaterial, Mesh, Color } from 'three';
 import { canvas, webgl, gui } from 'webgl';
-import helloWorldVertex from 'shaders/helloWorld.vert';
-import helloWorldFragment from 'shaders/helloWorld.frag';
+import { vertexShader, fragmentShader } from 'shaders/box/box.shader';
 
 class Box extends Object3D {
   constructor() {
@@ -16,8 +15,8 @@ class Box extends Object3D {
     const geometry = new BoxGeometry(1, 1, 1);
     this.material = new ShaderMaterial({
       uniforms: uniforms,
-      vertexShader: helloWorldVertex,
-      fragmentShader: helloWorldFragment
+      vertexShader,
+      fragmentShader
     });
 
     const mesh = new Mesh(geometry, this.material);

@@ -25,7 +25,7 @@ module.exports = {
     alias: {
       vue$: 'vue/dist/vue.esm.js',
       '@': resolve('src'),
-      shaders: resolve('src/shaders'),
+      shaders: resolve('src/webgl/shaders'),
       webgl: resolve('src/webgl'),
       utils: resolve('src/utils'),
       'three-extras': resolve('node_modules/three/examples/js/')
